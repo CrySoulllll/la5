@@ -1155,12 +1155,14 @@ public class GameView extends JFrame {
 
     private void endGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endGameButtonActionPerformed
         try {
-            helper.endGameTop(helper.fight.getHuman(), enterNameField, recordsTable);
-        } catch (IOException ex) {
-            Logger.getLogger(GameView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        endGameDialog.dispose();
-        enterNameField.setText("");
+                helper.endGameTop(helper.fight.getHuman(), enterNameField, recordsTable);
+            } catch (IOException ex) {
+                Logger.getLogger(GameView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            endGameDialog.dispose();
+            enterNameField.setText("");
+            this.setVisible(true);
+            fightFrame.dispose();
     }//GEN-LAST:event_endGameButtonActionPerformed
 
     private void closeRecordsTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeRecordsTableButtonActionPerformed

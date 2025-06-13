@@ -194,16 +194,18 @@ public class Fight {
      * @param enemiesList список всех противников
      */
     public void checkDeath(ArrayList<Results> gameResults, int locationsNumber, GameCharacter[] enemiesList) {
-        if (player.getHealth() <= 0 & player.getItems()[2].getCount() > 0) {
+        if (player.getHealth() <= 0 && player.getItems()[2].getCount() > 0) {
             player.setHealth((int) (player.getMaxHealth() * 0.05));
             player.getItems()[2].setCount(-1);
             controller.setHealthBar(player);
             controller.revive(player, player.getItems());
         }
-        if (player.getHealth() <= 0 | enemy.getHealth() <= 0) {
-            if (location.getCurrentLocation() == locationsNumber & "Shao Kahn".equals(enemy.getName())) {
-                location.resetLocation(false, 1);
-                endFinalRound(gameResults, enemiesList);
+
+        if (player.getHealth() <= 0 || enemy.getHealth() <= 0) {
+            if (player.getHealth() <= 0) {
+                endFinalRound(gameResults, enemiesList, false);
+            } else if (location.getCurrentLocation() == locationsNumber && "Shao Kahn".equals(enemy.getName())) {
+                endFinalRound(gameResults, enemiesList, true);
             } else {
                 endRound(enemiesList);
             }
@@ -261,27 +263,29 @@ public class Fight {
      * @param gameResults список результатов для записи
      * @param enemiesList список всех противников
      */
-    public void endFinalRound(ArrayList<Results> gameResults, GameCharacter[] enemiesList) {
+    public void endFinalRound(ArrayList<Results> gameResults, GameCharacter[] enemiesList, boolean isVictory) {
         resetEnemies(enemiesList);
-        String text = "Поражение";
-        if (player.getHealth() > 0) {
+        String text = isVictory ? "Победа" : "Поражение";
+
+        if (isVictory) {
             addPoints(player);
-            text = "Победа";
         }
+
         boolean top = false;
         if (gameResults == null) {
             top = true;
         } else {
-            int a = 0;
-            for (Results results : gameResults) {
-                if (player.getPoints() < results.getPoints()) {
-                    a++;
+            int betterResults = 0;
+            for (Results result : gameResults) {
+                if (player.getPoints() < result.getPoints()) {
+                    betterResults++;
                 }
             }
-            if (a < 10) {
+            if (betterResults < 10) {
                 top = true;
             }
         }
+
         controller.gameEnding(text, top);
     }
 

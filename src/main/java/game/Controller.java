@@ -131,9 +131,9 @@ public class Controller {
             endGameDialog.setBounds(150, 150, DIALOG_WIDTH, DIALOG_HEIGHT);
             victoryLabel.setText(text);
         } else {
-            endGameWithoutLadderDialog.setVisible(true);
-            endGameWithoutLadderDialog.setBounds(150, 150, DIALOG_WIDTH, DIALOG_HEIGHT);
-            endGameWithoutLadderTitlleLabel.setText(text);
+            endGameDialog.setVisible(true); // Используем тот же диалог для поражения
+            endGameDialog.setBounds(150, 150, DIALOG_WIDTH, DIALOG_HEIGHT);
+            victoryLabel.setText(text + "! Ваш результат: " + ((Player) fight.getHuman()).getPoints());
         }
         fightFrame.dispose();
     }
