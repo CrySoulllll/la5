@@ -131,9 +131,9 @@ public class Controller {
             endGameDialog.setBounds(150, 150, DIALOG_WIDTH, DIALOG_HEIGHT);
             victoryLabel.setText(text);
         } else {
-            endGameDialog.setVisible(true); // Используем тот же диалог для поражения
-            endGameDialog.setBounds(150, 150, DIALOG_WIDTH, DIALOG_HEIGHT);
-            victoryLabel.setText(text + "! Ваш результат: " + ((Player) fight.getHuman()).getPoints());
+            endGameWithoutLadderDialog.setVisible(true);
+            endGameWithoutLadderDialog.setBounds(150, 150, DIALOG_WIDTH, DIALOG_HEIGHT);
+            endGameWithoutLadderTitlleLabel.setText(text);
         }
         fightFrame.dispose();
     }
@@ -179,8 +179,17 @@ public class Controller {
      * @param enemy
      */
     public void setRoundTexts(GameCharacter human, GameCharacter enemy) {
-        updateHealthLabel(playerHealthLabel, human);
-        updateHealthLabel(enemyHealthLabel, enemy);
+        if (human.getHealth() >= 0) {
+            playerHealthLabel.setText(human.getHealth() + "/" + human.getMaxHealth());
+        } else {
+            playerHealthLabel.setText("0/" + human.getMaxHealth());
+        }
+
+        if (enemy.getHealth() >= 0) {
+            enemyHealthLabel.setText(enemy.getHealth() + "/" + enemy.getMaxHealth());
+        } else {
+            enemyHealthLabel.setText("0/" + enemy.getMaxHealth());
+        }
     }
 
     private void updateHealthLabel(JLabel label, GameCharacter gameCharacter) {

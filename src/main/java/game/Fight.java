@@ -199,12 +199,15 @@ public class Fight {
             player.getItems()[2].setCount(-1);
             controller.setHealthBar(player);
             controller.revive(player, player.getItems());
+            return;
         }
 
         if (player.getHealth() <= 0 || enemy.getHealth() <= 0) {
             if (player.getHealth() <= 0) {
+                // Player died and can't revive - end game
                 endFinalRound(gameResults, enemiesList, false);
             } else if (location.getCurrentLocation() == locationsNumber && "Shao Kahn".equals(enemy.getName())) {
+                location.resetLocation(false, 1);
                 endFinalRound(gameResults, enemiesList, true);
             } else {
                 endRound(enemiesList);
@@ -266,22 +269,22 @@ public class Fight {
     public void endFinalRound(ArrayList<Results> gameResults, GameCharacter[] enemiesList, boolean isVictory) {
         resetEnemies(enemiesList);
         String text = isVictory ? "Победа" : "Поражение";
+        boolean top = false;
 
         if (isVictory) {
             addPoints(player);
         }
 
-        boolean top = false;
         if (gameResults == null) {
             top = true;
         } else {
-            int betterResults = 0;
-            for (Results result : gameResults) {
-                if (player.getPoints() < result.getPoints()) {
-                    betterResults++;
+            int a = 0;
+            for (Results results : gameResults) {
+                if (player.getPoints() < results.getPoints()) {
+                    a++;
                 }
             }
-            if (betterResults < 10) {
+            if (a < 10) {
                 top = true;
             }
         }
